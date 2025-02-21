@@ -8,9 +8,13 @@ function creatform() {
     form.action = '#';//action hozzáadása a formhoz
 
     //Form mezők létrehozása
-    createFormField(form, 'Szerző neve:', 'szerzo', 'szerzo');
-    createFormField(form, 'Csapat:', 'group', 'group');
-    createFormField(form, 'Első mű:', 'mu1', 'mu1');
+    const field = createFormField('Szerző neve:', 'szerzo', 'szerzo')
+    form.appendChild(field)
+    const field2 = createFormField('Csapat:', 'group', 'group')
+    form.appendChild(field2)
+    const field3 = createFormField('Első mű:', 'mu1', 'mu1')
+    form.appendChild(field3)
+    
 
     //Checkbox létrehozása
     const checkboxLabel = document.createElement('label');
@@ -25,7 +29,8 @@ function creatform() {
     form.appendChild(checkbox);//Checkbox hozzáadása a formhoz
     form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
 
-    createFormField(form, 'Második mű:', 'mu2', 'mu2');//Második mű form mező létrehozása
+    const field4=createFormField( 'Második mű:', 'mu2', 'mu2');//Második mű form mező létrehozása
+    form.appendChild(field4)
 
     //Gomb létrehozása
     const button = document.createElement('button');
@@ -35,7 +40,6 @@ function creatform() {
     //Form hozzáadása a bodyhoz
     document.body.appendChild(form);
 }
-
 /**
  * 
  * form létrehozása
@@ -45,7 +49,8 @@ function creatform() {
  * @param {string} inputType input elem tipusa
  */
 //Form mező létrehozása
-function createFormField(form, labelText, inputId, inputName, inputType = 'text') {
+function createFormField( labelText, inputId, inputName, inputType = 'text') {
+    const container =  document.createElement('div')
     const label = document.createElement('label');//Label létrehozása
     label.htmlFor = inputId;//Label for attribútum beállítása
     label.innerHTML = labelText;//Label szövegének beállítása
@@ -59,14 +64,14 @@ function createFormField(form, labelText, inputId, inputName, inputType = 'text'
     errorSpan.id = `${inputId}_error`;//Hibaüzenet span id beállítása
     errorSpan.className = 'error';//Hibaüzenet span osztályának beállítása
 
-    form.appendChild(label);//Label hozzáadása a formhoz
-    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
-    form.appendChild(input);//Input hozzáadása a formhoz 
-    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz 
-    form.appendChild(errorSpan);//Hibaüzenet span hozzáadása a formhoz
-    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
+    container.appendChild(label);//Label hozzáadása a formhoz
+    container.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
+    container.appendChild(input);//Input hozzáadása a formhoz 
+    container.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz 
+    container.appendChild(errorSpan);//Hibaüzenet span hozzáadása a formhoz
+    container.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
+    return container
 }
-
 
 /**
  * 
