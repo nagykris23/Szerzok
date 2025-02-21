@@ -25,6 +25,67 @@ const array = [
         mu2: "Járkálj csak, halálraítélt"//Második mű címe
     }
 ];
+function creatform() {
+    //Form létrehozása
+    const form = document.createElement('form');
+    form.id = 'form';//id hozzáadása a formhoz
+    form.action = '#';//action hozzáadása a formhoz
+
+    //Form mezők létrehozása
+    createFormField(form, 'Szerző neve:', 'szerzo', 'szerzo');
+    createFormField(form, 'Csapat:', 'group', 'group');
+    createFormField(form, 'Első mű:', 'mu1', 'mu1');
+
+    //Checkbox létrehozása
+    const checkboxLabel = document.createElement('label');
+    checkboxLabel.htmlFor = 'masodik';//Label for attribútum beállítása
+    checkboxLabel.innerHTML = 'Szeretnél megadni második művet is?';//Label szövegének beállítása
+    form.appendChild(checkboxLabel);//Label hozzáadása a formhoz
+
+    const checkbox = document.createElement('input');//Checkbox létrehozása
+    checkbox.type = 'checkbox';//Checkbox típusának beállítása 
+    checkbox.id = 'masodik';//Checkbox id beállítása
+    checkbox.name = 'masodik';//Checkbox name beállítása
+    form.appendChild(checkbox);//Checkbox hozzáadása a formhoz
+    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
+
+    createFormField(form, 'Második mű:', 'mu2', 'mu2');//Második mű form mező létrehozása
+
+    //Gomb létrehozása
+    const button = document.createElement('button');
+    button.innerHTML = 'Hozzáadás';//Gomb szövegének beállítása
+    form.appendChild(button);//Gomb hozzáadása a formhoz
+
+    //Form hozzáadása a bodyhoz
+    document.body.appendChild(form);
+}
+
+
+//Form mező létrehozása
+function createFormField(form, labelText, inputId, inputName, inputType = 'text') {
+    const label = document.createElement('label');//Label létrehozása
+    label.htmlFor = inputId;//Label for attribútum beállítása
+    label.innerHTML = labelText;//Label szövegének beállítása
+
+    const input = document.createElement('input');//Input létrehozása
+    input.type = inputType;//Input típusának beállítása 
+    input.id = inputId;//Input id beállítása
+    input.name = inputName;//Input name beállítása
+
+    const errorSpan = document.createElement('span');//Hibaüzenet span létrehozása 
+    errorSpan.id = `${inputId}_error`;//Hibaüzenet span id beállítása
+    errorSpan.className = 'error';//Hibaüzenet span osztályának beállítása
+
+    form.appendChild(label);//Label hozzáadása a formhoz
+    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
+    form.appendChild(input);//Input hozzáadása a formhoz 
+    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz 
+    form.appendChild(errorSpan);//Hibaüzenet span hozzáadása a formhoz
+    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
+}
+
+
+
 //Validációs függvény a form kitöltöttségének ellenőrzésére
 function validateForm(szerzo, csapat, mu1, masodikMuChecked, mu2) {
     let isValid = true;//A validáció alapértelmezett értéke igaz
@@ -66,14 +127,14 @@ function validateForm(szerzo, csapat, mu1, masodikMuChecked, mu2) {
 
 function renderMenu() {
     const headers = ["Szerző neve", "Csapat", "Művei"];//Az oszlopok fejléceinek listája
-    
+
     const table = document.createElement('table');//Új táblázat létrehozása
     table.id = "table";//Egyedi azonosító beállítása a táblázathoz a könnyebb kezelés érdekében
     document.body.appendChild(table);//A táblázat hozzáadása az oldalhoz
-    
+
     const thead = document.createElement('thead');//A táblázat fejléc szekciójának létrehozása
     table.appendChild(thead);//A fejléc hozzáadása a táblázathoz
-    
+
     const headerRow = document.createElement('tr');//Egy új fejlécsor létrehozása
     thead.appendChild(headerRow);//A fejlécsor beillesztése a fejléc szekcióba
 
@@ -85,10 +146,9 @@ function renderMenu() {
         }
         headerRow.appendChild(headerCell);//A cella hozzáadása a fejlécsorhoz
     }
-    
     const tbody = document.createElement('tbody');//A táblázat törzsének létrehozása
     table.appendChild(tbody);//A törzs beillesztése a táblázatba
-    
+
     for (let i = 0; i < array.length; i++) {//Végigiterálunk az adatok tömbjén
         addRowToTable(array[i], tbody);//Egy új sort adunk hozzá a táblázathoz
     }
@@ -121,28 +181,28 @@ function addRowToTable(data, tbody) {
     }
 
 
-    
-}
 
-document.getElementById('form').addEventListener('submit', function(e) { 
+}
+creatform()
+document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();//Az alapértelmezett űrlapküldési viselkedés megakadályozása
-    
-    const szerzoElement = document.getElementById('szerzo_nev');//A szerző mező lekérése
+
+    const szerzoElement = document.getElementById('szerzo');//A szerző mező lekérése
     const csapatElement = document.getElementById('group');//A csapat mező lekérése
     const mu1Element = document.getElementById('mu1');//Az első mű mező lekérése
     const mu2Element = document.getElementById('mu2');//A második mű mező lekérése
     const masodikMuCheckbox = document.getElementById('masodik');//A második mű jelölőnégyzetének lekérése
-    
+
     const szerzoValue = szerzoElement.value;//A szerző nevének értéke
     const csapatValue = csapatElement.value;//A csapat nevének értéke
     const mu1Value = mu1Element.value;//Az első mű címének értéke
     const mu2Value = masodikMuCheckbox.checked ? mu2Element.value : '';//A második mű értéke, ha ki van pipálva
-    
+
     // Validációs függvény meghívása
     if (!validateForm(szerzoValue, csapatValue, mu1Value, masodikMuCheckbox.checked, mu2Value))//Ha a validáció sikertelen
-        { 
-            return;//Kilépés a függvényből
-        }
+    {
+        return;//Kilépés a függvényből
+    }
 
     const newElement = {//Egy új objektum létrehozása az adatokkal
         szerzo: szerzoValue,//A szerző neve
@@ -150,7 +210,7 @@ document.getElementById('form').addEventListener('submit', function(e) {
         mu1: mu1Value,//Az első mű címe
         mu2: mu2Value,//A második mű címe (ha van)
     };
-    
+
     array.push(newElement);//Az új objektum hozzáadása az adatok tömbjéhez
 
     const table = document.getElementById('table');//A táblázat kiválasztása
