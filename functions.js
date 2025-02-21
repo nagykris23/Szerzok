@@ -7,20 +7,22 @@ function creatform() {
     form.id = 'form';//id hozzáadása a formhoz
     form.action = '#';//action hozzáadása a formhoz
 
-    //Form mezők létrehozása
-    const field = createFormField('Szerző neve:', 'szerzo', 'szerzo')
-    form.appendChild(field)
-    const field2 = createFormField('Csapat:', 'group', 'group')
-    form.appendChild(field2)
-    const field3 = createFormField('Első mű:', 'mu1', 'mu1')
-    form.appendChild(field3)
-    
-    const field4 = createFormField('Második mű:', 'mu2', 'mu2')
-    form.appendChild(field4)
-
-    //Checkbox létrehozása a createchekbox függvénnyel
-    const checkboxField = createchekbox('Szeretnél megadni második művet is?', 'masodik', 'masodik');
-    form.appendChild(checkboxField);
+    const fields = [
+        { label: 'Szerző neve:', id: 'szerzo', name: 'szerzo', inputType: 'text' },
+        { label: 'Csapat:', id: 'group', name: 'group', inputType: 'text' },
+        { label: 'Első mű:', id: 'mu1', name: 'mu1', inputType: 'text' },
+        { label: 'Második mű:', id: 'mu2', name: 'mu2', inputType: 'text' },
+        { label: 'Szeretnél megadni második művet is?', id: 'masodik', name: 'masodik', inputType: 'checkbox' }
+    ]
+    for(const adat of fields){
+        let fieldelement
+        if(adat.inputType ==='checkbox'){
+            fieldelement = createchekbox(adat.label,adat.id,adat.name)
+        }else{
+            fieldelement = createFormField(adat.label,adat.id,adat.name)
+        }
+        form.appendChild(fieldelement)
+    }
 
     //Gomb létrehozása
     const button = document.createElement('button');
@@ -139,7 +141,11 @@ function validateForm(szerzo, csapat, mu1, masodikMuChecked, mu2) {
  * táblázat létrehozása
  */
 function renderMenu() {
-    const headers = ["Szerző neve", "Csapat", "Művei"];//Az oszlopok fejléceinek listája
+    const headers = [
+        { text: "Szerző neve", colspan: 1 },
+        { text: "Csapat", colspan: 1 },
+        { text: "Művei", colspan: 2 }
+    ];
 
     const table = document.createElement('table');//Új táblázat létrehozása
     table.id = "table";//Egyedi azonosító beállítása a táblázathoz a könnyebb kezelés érdekében
@@ -153,9 +159,9 @@ function renderMenu() {
 
     for (let i = 0; i < headers.length; i++) {//Végigmegyünk az oszlopok fejlécén
         const headerCell = document.createElement('th');//Új fejléc cella létrehozása
-        headerCell.innerHTML = headers[i];//A cella tartalmának beállítása a fejléc szövegére
-        if (i === 2) {//Ha a "Művei" oszlopnál járunk
-            headerCell.colSpan = 2;//Az oszlop szélességének kiterjesztése két oszlopra
+        headerCell.innerHTML = headers[i].text;//A cella tartalmának beállítása a fejléc szövegére
+        if (headers[i].colspan>1) {//Ha a "Művei" oszlopnál járunk
+            headerCell.colSpan = headers[i].colspan;//Az oszlop szélességének kiterjesztése két oszlopra
         }
         headerRow.appendChild(headerCell);//A cella hozzáadása a fejlécsorhoz
     }
