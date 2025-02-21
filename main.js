@@ -25,8 +25,8 @@ const array = [
         mu2: "Járkálj csak, halálraítélt"//Második mű címe
     }
 ];
-
 creatform()
+createchekbox()
 document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();//Az alapértelmezett űrlapküldési viselkedés megakadályozása
 

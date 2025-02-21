@@ -15,22 +15,12 @@ function creatform() {
     const field3 = createFormField('Első mű:', 'mu1', 'mu1')
     form.appendChild(field3)
     
-
-    //Checkbox létrehozása
-    const checkboxLabel = document.createElement('label');
-    checkboxLabel.htmlFor = 'masodik';//Label for attribútum beállítása
-    checkboxLabel.innerHTML = 'Szeretnél megadni második művet is?';//Label szövegének beállítása
-    form.appendChild(checkboxLabel);//Label hozzáadása a formhoz
-
-    const checkbox = document.createElement('input');//Checkbox létrehozása
-    checkbox.type = 'checkbox';//Checkbox típusának beállítása 
-    checkbox.id = 'masodik';//Checkbox id beállítása
-    checkbox.name = 'masodik';//Checkbox name beállítása
-    form.appendChild(checkbox);//Checkbox hozzáadása a formhoz
-    form.appendChild(document.createElement('br'));//Sortörés hozzáadása a formhoz
-
-    const field4=createFormField( 'Második mű:', 'mu2', 'mu2');//Második mű form mező létrehozása
+    const field4 = createFormField('Második mű:', 'mu2', 'mu2')
     form.appendChild(field4)
+
+    //Checkbox létrehozása a createchekbox függvénnyel
+    const checkboxField = createchekbox('Szeretnél megadni második művet is?', 'masodik', 'masodik');
+    form.appendChild(checkboxField);
 
     //Gomb létrehozása
     const button = document.createElement('button');
@@ -42,6 +32,31 @@ function creatform() {
 }
 /**
  * 
+ * @param {string} labelText 
+ * @param {string} checkboxID 
+ * @param {string} checkboxName 
+ * @returns {HTMLDivElement}
+ */
+function createchekbox(labelText, checkboxID, checkboxName){
+    //Checkbox létrehozása
+    const container = document.createElement('div')
+
+    const checkboxLabel = document.createElement('label');
+    checkboxLabel.htmlFor = checkboxID; //Label for attribútum beállítása
+    checkboxLabel.innerHTML = labelText; //Label szövegének beállítása
+    container.appendChild(checkboxLabel); //Label hozzáadása a containerhez
+
+    const checkbox = document.createElement('input'); //Checkbox létrehozása
+    checkbox.type = 'checkbox'; //Checkbox típusának beállítása 
+    checkbox.id = checkboxID; //Checkbox id beállítása
+    checkbox.name = checkboxName; //Checkbox name beállítása
+    container.appendChild(checkbox); //Checkbox hozzáadása a containerhez
+
+    container.appendChild(document.createElement('br')); //Sortörés hozzáadása a containerhez
+    return container;
+}
+/**
+ * 
  * form létrehozása
  * @param {string} labelText cimkék szövege
  * @param {string} inputId id azonositása
@@ -49,8 +64,8 @@ function creatform() {
  * @param {string} inputType input elem tipusa
  */
 //Form mező létrehozása
-function createFormField( labelText, inputId, inputName, inputType = 'text') {
-    const container =  document.createElement('div')
+function createFormField(labelText, inputId, inputName, inputType = 'text') {
+    const container = document.createElement('div')
     const label = document.createElement('label');//Label létrehozása
     label.htmlFor = inputId;//Label for attribútum beállítása
     label.innerHTML = labelText;//Label szövegének beállítása
@@ -181,7 +196,4 @@ function addRowToTable(data, tbody) {
         cell3.innerHTML = data.mu1;//Az első mű címének beállítása
         row.appendChild(cell3);//A cella beillesztése a sorba
     }
-
-
-
 }
